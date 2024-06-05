@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { HotelContext } from './Context/HotelContext';
 
 function App() {
+  const { hotelsWithReviews } = useContext(HotelContext);
+  console.log(hotelsWithReviews);
+
   return (
     <div className="App">
       <header className="App-header">

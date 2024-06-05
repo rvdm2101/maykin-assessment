@@ -38,7 +38,7 @@ export const HotelContext = createContext<IHotelContext>({
     hotelsWithReviews: [],
 });
 
-export const HotelContextProvider = ({ children }: { children: React.ReactElement }) => {
+export const HotelContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [hotels, setHotels] = useState<IHotelWithReview[]>([]);
     useEffect(() => {
         async function fetchData() {

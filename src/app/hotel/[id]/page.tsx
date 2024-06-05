@@ -1,13 +1,15 @@
 'use client';
 
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { HotelContext } from '../../../Context/HotelContext';
+import { IHotelWithReview } from '../../../types';
 
 const HotelDetail = ({ params }: { params: { id: string } }) => {
-  const { hotelsWithReviews } = useContext(HotelContext);
-  const hotelWithReviews = useMemo(() => {
-    return hotelsWithReviews.find((hotel) => hotel.hotelInfo.hotelID === params.id);
-  }, [params.id, hotelsWithReviews]);
+  const [hotelWithReviews, setHotelWithReviews] = useState<IHotelWithReview>();
+  const { fetchHotelDataById } = useContext(HotelContext);
+  useEffect(() => {
+    fetchHotelDataById(params.id).then((hotel) => setHotelWithReviews(hotel));
+  }, [params.id, fetchHotelDataById]);
   return (
     <div>
       {params.id}

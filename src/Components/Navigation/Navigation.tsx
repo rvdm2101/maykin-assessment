@@ -9,4 +9,4 @@ export const Navigation = () => {
       </Container>
     </Navbar>
   );
-}
+};

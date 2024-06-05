@@ -6,7 +6,7 @@ interface IHotelWithReview {
     name: string;
     price: string;
     imgURL: string;
-    hotelId: string;
+    hotelID: string;
     address: string; // stringified HTML
   };
   reviews: {

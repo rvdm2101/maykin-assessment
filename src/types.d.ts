@@ -16,15 +16,17 @@ export interface IReview {
   authorLocation: string;
   content: string;
   date: string; // date in format 'MMMM D, YYYY' (i.e. 'May 5, 2024')
-  ratings: {
-    cleanliness: string;
-    location: string;
-    overall: string;
-    rooms: string;
-    service: string;
-    'sleep Quality': string;
-    value: string;
-  };
+  ratings: IReviewRatings<string>;
   reviewID: string;
   title: string;
+}
+
+export interface IReviewRatings<T> {
+  cleanliness: T;
+  location: T;
+  overall: T;
+  rooms: T;
+  service: T;
+  'sleep Quality': T;
+  value: T;
 }

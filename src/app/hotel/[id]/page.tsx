@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/esm/Spinner';
+import { ReviewsBlock } from '../../../Components/ReviewsBlock';
 
 const HotelDetail = ({ params }: { params: { id: string } }) => {
   const [hotelWithReviews, setHotelWithReviews] = useState<IHotelWithReview>();
@@ -73,7 +74,7 @@ const HotelDetail = ({ params }: { params: { id: string } }) => {
           </p>
         </div>
         <hr />
-        <div className="pt-4">
+        <div className="py-4">
           <h2>Available rooms</h2>
           <Row>
             <Col>
@@ -117,6 +118,8 @@ const HotelDetail = ({ params }: { params: { id: string } }) => {
             </Col>
           </Row>
         </div>
+
+        <ReviewsBlock extraClasses="mb-4" reviews={hotelWithReviews.reviews} />
       </Col>
     </Row>
   ) : (

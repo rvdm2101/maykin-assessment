@@ -19,5 +19,25 @@ export const Pagination = ({ page, lastPage, onPaginationItemClick }: IPaginatio
     );
   }
 
-  return <BootstrapPagination.default>{pages}</BootstrapPagination.default>;
+  return (
+    <BootstrapPagination.default>
+      <BootstrapPagination.default.First
+        disabled={page === 1}
+        onClick={() => onPaginationItemClick(1)}
+      />
+      <BootstrapPagination.default.Prev
+        disabled={page === 1}
+        onClick={() => onPaginationItemClick(page - 1)}
+      />
+      {pages}
+      <BootstrapPagination.default.Next
+        disabled={page === lastPage}
+        onClick={() => onPaginationItemClick(page + 1)}
+      />
+      <BootstrapPagination.default.Last
+        disabled={page === lastPage}
+        onClick={() => onPaginationItemClick(lastPage)}
+      />
+    </BootstrapPagination.default>
+  );
 };

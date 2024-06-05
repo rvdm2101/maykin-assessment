@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <HotelContextProvider>
           <Navigation />
-          <Container>
+          <Container className="pt-3">
             <Row>
               <Col>{children}</Col>
             </Row>

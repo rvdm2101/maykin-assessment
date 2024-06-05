@@ -28,9 +28,8 @@ export const HotelContextProvider = ({ children }: { children: React.ReactNode }
 
   const fetchHotelDataById = useCallback(
     async (id: string) => {
-      const hotel = hotels[id];
-      if (hotel !== undefined) {
-        return hotel;
+      if (Object.keys(hotels).includes(id)) {
+        return hotels[id];
       }
       return fetchHotelData(id)
         .then((res) => {
@@ -57,9 +56,9 @@ export const HotelContextProvider = ({ children }: { children: React.ReactNode }
       // Get all the "hotels to return" from the state
       const hotelsAlreadyFetched: IHotelWithReview[] = [];
       for (let index = 0; index < hotelIdsToReturn.length; index++) {
-        const hotel = hotels[hotelIdsToReturn[index]];
-        if (hotel !== undefined) {
-          hotelsAlreadyFetched.push(hotel);
+        const id = hotelIdsToReturn[index];
+        if (Object.keys(hotels).includes(`${id}`)) {
+          hotelsAlreadyFetched.push(hotels[id]);
         }
       }
 

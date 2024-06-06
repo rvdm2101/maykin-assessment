@@ -49,12 +49,14 @@ export const HotelContextProvider = ({ children }: { children: React.ReactNode }
     [hotels]
   );
 
+  // @TODO should be covered by jest
   const sortHotelsOnIds = (ids: number[], hotels: IHotelWithReview[]) =>
     hotels.sort(
       (a, b) =>
         ids.indexOf(parseInt(a.hotelInfo.hotelID)) - ids.indexOf(parseInt(b.hotelInfo.hotelID))
     );
 
+  // @TODO should be covered by jest? (maybe partly...)
   const fetchHotelDataPaginated = useCallback(
     async (limit: number, offset: number): Promise<TfetchHotelDataPaginatedResult> => {
       const sliceStart = offset * limit;

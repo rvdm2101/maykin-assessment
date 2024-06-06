@@ -19,6 +19,7 @@ export const BookingConfirmation = ({
   const amountOfNightsInBooking = departureDate.diff(arivalDate, 'days');
   const totalPrice = room.price * amountOfNightsInBooking * bookingForm.amountOfRooms;
 
+  // @TODO move to util and cover with jest
   const bookedDates = useMemo(() => {
     const range = [];
     let date = arivalDate;

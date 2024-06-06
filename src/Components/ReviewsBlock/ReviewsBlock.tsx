@@ -8,6 +8,7 @@ interface IReviewsBlock {
 }
 
 export const ReviewsBlock = ({ reviews, extraClasses }: IReviewsBlock) => {
+  // @TODO move to util and cover with jest
   const averageScores = useMemo<IReviewRatings<number>>(() => {
     const sumOfScores = reviews.reduce<IReviewRatings<number>>(
       (carry, review) => {

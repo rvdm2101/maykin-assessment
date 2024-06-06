@@ -9,6 +9,7 @@ interface IReviewsCard {
 }
 
 export const ReviewsCard = ({ reviews }: IReviewsCard) => {
+  // @TODO move to util and cover with jest?
   const averageScore = useMemo(() => {
     const average =
       reviews.reduce((sum, review) => sum + parseFloat(review.ratings.overall), 0) / reviews.length;

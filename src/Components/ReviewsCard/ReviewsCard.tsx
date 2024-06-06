@@ -3,18 +3,14 @@ import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Carousel from 'react-bootstrap/Carousel';
 import { IReview } from '../../types';
+import { getAverageOverallRatingOfReviews } from '../../util/getAverageOverallRatingOfReviews';
 
 interface IReviewsCard {
   reviews: IReview[];
 }
 
 export const ReviewsCard = ({ reviews }: IReviewsCard) => {
-  // @TODO move to util and cover with jest?
-  const averageScore = useMemo(() => {
-    const average =
-      reviews.reduce((sum, review) => sum + parseFloat(review.ratings.overall), 0) / reviews.length;
-    return Math.round(average * 10) / 10;
-  }, [reviews]);
+  const averageScore = useMemo(() => getAverageOverallRatingOfReviews(reviews), [reviews]);
 
   return (
     <Card>

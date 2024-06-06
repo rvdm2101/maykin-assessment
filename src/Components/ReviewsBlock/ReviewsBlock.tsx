@@ -60,7 +60,7 @@ export const ReviewsBlock = ({ reviews, extraClasses }: IReviewsBlock) => {
                 </span>
               </div>
               <ProgressBar
-                variant={value < 2.5 ? 'danger' : value < 3.75 ? 'warning' : 'succes'}
+                variant={value < 2.5 ? 'danger' : value < 3.75 ? 'warning' : 'success'}
                 min={0}
                 max={5}
                 now={value}

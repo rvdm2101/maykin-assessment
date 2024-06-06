@@ -1,18 +1,26 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { HotelContext, TfetchHotelDataPaginatedResult } from '../Context/HotelContext';
 import { HotelCard } from '../Components/HotelCard/HotelCard';
 import { Pagination } from '../Components/Pagination';
+import { useSearchParams } from 'next/navigation';
 
 const HomePage = () => {
-  const [page, setPage] = useState<number>(1);
+  const searchParams = useSearchParams();
   const [result, setResult] = useState<TfetchHotelDataPaginatedResult>();
   const { fetchHotelDataPaginated } = useContext(HotelContext);
+  const page = parseInt(searchParams.get('page') || '1');
 
   useEffect(() => {
     fetchHotelDataPaginated(3, page - 1).then((results) => setResult(results));
   }, [page, fetchHotelDataPaginated]);
+
+  const updatePaginationPage = useCallback((newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', `${newPage}`);
+    window.history.pushState(null, '', `?${params.toString()}`);
+  }, []);
 
   return (
     <div>
@@ -28,7 +36,7 @@ const HomePage = () => {
           <Pagination
             page={page}
             lastPage={result.pages}
-            onPaginationItemClick={(paginationNumber) => setPage(paginationNumber)}
+            onPaginationItemClick={updatePaginationPage}
           />
         </>
       ) : null}

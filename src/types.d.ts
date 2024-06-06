@@ -42,11 +42,11 @@ export interface IReview {
 }
 
 export interface IReviewRatings<T> {
-  cleanliness: T;
-  location: T;
+  cleanliness?: T;
+  location?: T;
   overall: T;
-  rooms: T;
-  service: T;
-  'sleep Quality': T;
-  value: T;
+  rooms?: T;
+  service?: T;
+  'sleep Quality'?: T;
+  value?: T;
 }

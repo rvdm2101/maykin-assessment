@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { IReview, IReviewRatings } from '../../types';
 import { Badge, Col, ProgressBar, Row } from 'react-bootstrap';
+import { getAverageRatingsOfReviews } from '../../util/getAverageRatingsOfReviews';
 
 interface IReviewsBlock {
   extraClasses?: string;
@@ -8,49 +9,22 @@ interface IReviewsBlock {
 }
 
 export const ReviewsBlock = ({ reviews, extraClasses }: IReviewsBlock) => {
-  // @TODO move to util and cover with jest
-  const averageScores = useMemo<IReviewRatings<number>>(() => {
-    const sumOfScores = reviews.reduce<IReviewRatings<number>>(
-      (carry, review) => {
-        Object.keys(carry).forEach((scoreKey) => {
-          const key = scoreKey as keyof IReviewRatings<number>;
-          let value = parseFloat(review.ratings[key]);
-          if (isNaN(value)) {
-            value = parseFloat(review.ratings.overall);
-          }
-          carry[key] = carry[key] + value;
-        });
-        return carry;
-      },
-      {
-        cleanliness: 0,
-        location: 0,
-        overall: 0,
-        rooms: 0,
-        service: 0,
-        'sleep Quality': 0,
-        value: 0
-      }
-    );
-
-    Object.keys(sumOfScores).forEach((scoreKey) => {
-      const key = scoreKey as keyof IReviewRatings<number>;
-      sumOfScores[key] = Math.round((sumOfScores[key] / reviews.length) * 10) / 10;
-    });
-    return sumOfScores;
-  }, [reviews]);
+  const averageRatings = useMemo<IReviewRatings<number>>(
+    () => getAverageRatingsOfReviews(reviews),
+    [reviews]
+  );
   return (
     <div className={extraClasses}>
       <h3>Guest reviews</h3>
       <div className="d-flex">
         <div className="h5">
-          <Badge>{averageScores.overall}</Badge>
+          <Badge>{averageRatings.overall}</Badge>
         </div>
         <p className="ms-2"> · {reviews.length} reviews</p>
       </div>
       <h5>Categories:</h5>
       <Row>
-        {Object.entries(averageScores)
+        {Object.entries(averageRatings)
           .filter(([key]) => key !== 'overall')
           .map(([key, value], index) => (
             <Col lg={4} key={index}>

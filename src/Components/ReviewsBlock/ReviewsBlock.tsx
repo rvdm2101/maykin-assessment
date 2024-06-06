@@ -53,14 +53,15 @@ export const ReviewsBlock = ({ reviews, extraClasses }: IReviewsBlock) => {
           .filter(([key]) => key !== 'overall')
           .map(([key, value], index) => (
             <Col lg={4} key={index}>
-              <div className="d-flex">
-                <h6>{key}</h6>
-                <span className="ms-auto" style={{ fontSize: '.825rem' }}>
+              <div className="d-flex mt-2">
+                <h6 className="mb-0">{key}</h6>
+                <p className="mb-0 ms-auto" style={{ fontSize: '.825rem' }}>
                   {value}
-                </span>
+                </p>
               </div>
               <ProgressBar
-                variant={value < 2.5 ? 'danger' : value < 3.75 ? 'warning' : 'success'}
+                style={{ height: '.5rem' }}
+                variant={value < 2.5 ? 'danger' : value < 3.75 ? 'warning' : 'primary'}
                 min={0}
                 max={5}
                 now={value}

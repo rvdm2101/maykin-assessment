@@ -13,10 +13,22 @@ export interface IHotel {
 
 export interface IHotelRoom {
   name: string;
-  price: string;
+  price: number;
   imgURL: string;
   roomID: string;
   description: string;
+}
+
+export interface IBookingForm {
+  hotelID: string;
+  roomID: string;
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  amountOfRooms: number;
+  amountOfGuests: number;
+  arivalDate: string;
+  departureDate: string;
 }
 
 export interface IReview {

@@ -1,19 +1,23 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { ReviewsCard } from '../../../Components/ReviewsCard';
 import { HotelContext } from '../../../Context/HotelContext';
-import { IHotelRoom, IHotelWithReview } from '../../../types';
+import { IBookingForm, IHotelRoom, IHotelWithReview } from '../../../types';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import { ReviewsBlock } from '../../../Components/ReviewsBlock';
+import { RoomBookingOffCanvas } from '../../../Components/RoomBookingOffCanvas';
 import { HotelRoomCard } from '../../../Components/HotelRoomCard';
+import { getEmptyBookingForm } from '../../../util/emptyObject';
 
 const HotelDetail = ({ params }: { params: { id: string } }) => {
   const [hotelWithReviews, setHotelWithReviews] = useState<IHotelWithReview>();
   const [hotelRooms, setHotelRooms] = useState<IHotelRoom[]>();
+  const [bookingForm, setBookingForm] = useState<IBookingForm>(getEmptyBookingForm(params.id));
+  const [showRoomBooking, setShowRoomBooking] = useState<boolean>(false);
   const { fetchHotelRooms, fetchHotelDataById } = useContext(HotelContext);
 
   useEffect(() => {
@@ -23,6 +27,11 @@ const HotelDetail = ({ params }: { params: { id: string } }) => {
     });
     fetchHotelDataById(params.id).then((hotel) => setHotelWithReviews(hotel));
   }, [params.id, fetchHotelDataById]);
+
+  const openRoomBookingScreen = useCallback((roomID: string) => {
+    setShowRoomBooking(true);
+    setBookingForm((form) => ({ ...form, roomID }));
+  }, []);
 
   // @TODO add loading state
   return hotelWithReviews !== undefined ? (
@@ -85,13 +94,22 @@ const HotelDetail = ({ params }: { params: { id: string } }) => {
           <Row>
             {hotelRooms?.map((room, index) => (
               <Col key={index}>
-                <HotelRoomCard room={room} />
+                <HotelRoomCard room={room} onBookRoomClick={openRoomBookingScreen} />
               </Col>
             ))}
           </Row>
         </div>
 
         <ReviewsBlock extraClasses="mb-4" reviews={hotelWithReviews.reviews} />
+
+        <RoomBookingOffCanvas
+          placement="end"
+          show={showRoomBooking}
+          room={hotelRooms?.find((room) => room.roomID === bookingForm.roomID)}
+          handleClose={() => setShowRoomBooking(false)}
+          bookingForm={bookingForm}
+          setBookingForm={setBookingForm}
+        />
       </Col>
     </Row>
   ) : (

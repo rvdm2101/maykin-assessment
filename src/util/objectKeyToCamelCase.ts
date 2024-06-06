@@ -1,9 +1,9 @@
 export const objectKeyToCamelCaseRecursively = (data: object) => {
   // Change the case of the object keys on the top level
-  let camelCaseData = objectKeyToCamelCase(data);
+  const camelCaseData = objectKeyToCamelCase(data);
 
   // Check if this object has any sub-objects
-  for (let key in camelCaseData) {
+  for (const key in camelCaseData) {
     if (typeof camelCaseData[key] === 'object') {
       if (Array.isArray(camelCaseData[key])) {
         // loop through array

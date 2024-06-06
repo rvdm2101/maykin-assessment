@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useState } from 'react';
 import { IHotelRoom, IHotelWithReview } from '../types';
 import { fetchHotelData } from '../util/fetchHotelData';
+import { sortHotelsByIds } from '../util/sortHotelsByIds';
 
 export type TfetchHotelDataPaginatedResult =
   | { items: IHotelWithReview[]; pages: number }
@@ -49,13 +50,6 @@ export const HotelContextProvider = ({ children }: { children: React.ReactNode }
     [hotels]
   );
 
-  // @TODO should be covered by jest
-  const sortHotelsOnIds = (ids: number[], hotels: IHotelWithReview[]) =>
-    hotels.sort(
-      (a, b) =>
-        ids.indexOf(parseInt(a.hotelInfo.hotelID)) - ids.indexOf(parseInt(b.hotelInfo.hotelID))
-    );
-
   // @TODO should be covered by jest? (maybe partly...)
   const fetchHotelDataPaginated = useCallback(
     async (limit: number, offset: number): Promise<TfetchHotelDataPaginatedResult> => {
@@ -75,7 +69,7 @@ export const HotelContextProvider = ({ children }: { children: React.ReactNode }
       // If all hotels are already in the global state, return them in the correct order
       if (hotelsAlreadyFetched.length === hotelIdsToReturn.length) {
         return Promise.resolve({
-          items: sortHotelsOnIds(hotelIdsToReturn, hotelsAlreadyFetched),
+          items: sortHotelsByIds(hotelIdsToReturn, hotelsAlreadyFetched),
           pages: amountOfPages
         });
       }
@@ -98,7 +92,7 @@ export const HotelContextProvider = ({ children }: { children: React.ReactNode }
 
       return fetchedHotels !== undefined
         ? {
-            items: sortHotelsOnIds(hotelIdsToReturn, [...fetchedHotels, ...hotelsAlreadyFetched]),
+            items: sortHotelsByIds(hotelIdsToReturn, [...fetchedHotels, ...hotelsAlreadyFetched]),
             pages: amountOfPages
           }
         : undefined;

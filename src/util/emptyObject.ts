@@ -1,4 +1,4 @@
-import { IBookingForm, IReview, IReviewRatings } from '../types';
+import { IBookingForm, IHotelWithReview, IReview, IReviewRatings } from '../types';
 
 export const getEmptyBookingForm = (hotelID: string = ''): IBookingForm => ({
   hotelID,
@@ -40,4 +40,15 @@ export const getEmptyReview = (): IReview => ({
   ratings: getEmptyReviewRatingsAsStrings(),
   reviewID: '',
   title: ''
+});
+
+export const getEmptyHotel = (): IHotelWithReview => ({
+  hotelInfo: {
+    name: '',
+    price: '',
+    imgURL: '',
+    hotelID: '',
+    address: ''
+  },
+  reviews: []
 });

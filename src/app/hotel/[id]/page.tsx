@@ -3,22 +3,28 @@
 import { useContext, useEffect, useState } from 'react';
 import { ReviewsCard } from '../../../Components/ReviewsCard';
 import { HotelContext } from '../../../Context/HotelContext';
-import { IHotelWithReview } from '../../../types';
+import { IHotelRoom, IHotelWithReview } from '../../../types';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import { ReviewsBlock } from '../../../Components/ReviewsBlock';
+import { HotelRoomCard } from '../../../Components/HotelRoomCard';
 
 const HotelDetail = ({ params }: { params: { id: string } }) => {
   const [hotelWithReviews, setHotelWithReviews] = useState<IHotelWithReview>();
-  const { fetchHotelDataById } = useContext(HotelContext);
+  const [hotelRooms, setHotelRooms] = useState<IHotelRoom[]>();
+  const { fetchHotelRooms, fetchHotelDataById } = useContext(HotelContext);
+
   useEffect(() => {
+    Promise.all([fetchHotelRooms(), fetchHotelDataById(params.id)]).then(([rooms, hotel]) => {
+      setHotelRooms(rooms);
+      setHotelWithReviews(hotel);
+    });
     fetchHotelDataById(params.id).then((hotel) => setHotelWithReviews(hotel));
   }, [params.id, fetchHotelDataById]);
-  console.log(hotelWithReviews);
+
+  // @TODO add loading state
   return hotelWithReviews !== undefined ? (
     <Row>
       <Col lg={12}>
@@ -77,45 +83,11 @@ const HotelDetail = ({ params }: { params: { id: string } }) => {
         <div className="py-4">
           <h2>Available rooms</h2>
           <Row>
-            <Col>
-              <Card>
-                <Card.Img
-                  variant="top"
-                  src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/207302684.jpg?k=b7c70ca0350bd6419c549127ddbd4d3dc182e751114fc7a692c19b02af59b76a&o="
-                />
-                <Card.Body>
-                  <Card.Title>Mixed Dormitory</Card.Title>
-                  <Card.Text>A mixed dormitory for 8 persons. With shared bathroom.</Card.Text>
-                  <Button variant="primary">Book room</Button>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col>
-              <Card>
-                <Card.Img
-                  variant="top"
-                  src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/113581334.jpg?k=6dbfc14ed8b39c1e0de386c4b1a794e778eca5d9e0c7d7431608c07cf6438af7&o="
-                />
-                <Card.Body>
-                  <Card.Title>Small Double Room</Card.Title>
-                  <Card.Text>A small double room, with ensuite bathroom.</Card.Text>
-                  <Button variant="primary">Book room</Button>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col>
-              <Card>
-                <Card.Img
-                  variant="top"
-                  src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/113288806.jpg?k=06f6c18e86f08429d2413b01d7f745ceff4b2434d581aae1d88d7573fbb81aca&o="
-                />
-                <Card.Body>
-                  <Card.Title>Deluxe Double Room</Card.Title>
-                  <Card.Text>A luxurious double room, with ensuite bathroom.</Card.Text>
-                  <Button variant="primary">Book room</Button>
-                </Card.Body>
-              </Card>
-            </Col>
+            {hotelRooms?.map((room, index) => (
+              <Col key={index}>
+                <HotelRoomCard room={room} />
+              </Col>
+            ))}
           </Row>
         </div>
 

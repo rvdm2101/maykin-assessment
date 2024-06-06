@@ -11,6 +11,14 @@ export interface IHotel {
   address: string; // stringified HTML
 }
 
+export interface IHotelRoom {
+  name: string;
+  price: string;
+  imgURL: string;
+  roomID: string;
+  description: string;
+}
+
 export interface IReview {
   author: string;
   authorLocation: string;

@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useState } from 'react';
-import { IHotelWithReview } from '../types';
+import { IHotelRoom, IHotelWithReview } from '../types';
 import { fetchHotelData } from '../util/fetchHotelData';
 
 export type TfetchHotelDataPaginatedResult =
@@ -9,6 +9,7 @@ export type TfetchHotelDataPaginatedResult =
 type THotelsState = { [key: string]: IHotelWithReview };
 
 interface IHotelContext {
+  fetchHotelRooms: () => Promise<IHotelRoom[] | undefined>;
   fetchHotelDataById: (id: string) => Promise<IHotelWithReview | undefined>;
   fetchHotelDataPaginated: (
     limit: number,
@@ -19,12 +20,19 @@ interface IHotelContext {
 const DUMMY_HOTELS_IDS = [100407, 100504, 100505, 100506, 100507, 100508, 100509];
 
 export const HotelContext = createContext<IHotelContext>({
+  fetchHotelRooms: () => Promise.resolve(undefined),
   fetchHotelDataById: () => Promise.resolve(undefined),
   fetchHotelDataPaginated: () => Promise.resolve(undefined)
 });
 
 export const HotelContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [hotels, setHotels] = useState<THotelsState>({});
+
+  const fetchHotelRooms = useCallback(async () => {
+    return fetch('/resource/hotelRooms.json')
+      .then((response) => response.json())
+      .catch(() => undefined);
+  }, []);
 
   const fetchHotelDataById = useCallback(
     async (id: string) => {
@@ -97,7 +105,7 @@ export const HotelContextProvider = ({ children }: { children: React.ReactNode }
   );
 
   return (
-    <HotelContext.Provider value={{ fetchHotelDataById, fetchHotelDataPaginated }}>
+    <HotelContext.Provider value={{ fetchHotelRooms, fetchHotelDataById, fetchHotelDataPaginated }}>
       {children}
     </HotelContext.Provider>
   );

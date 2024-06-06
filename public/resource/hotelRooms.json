@@ -1,0 +1,26 @@
+[
+    {
+      "name": "Mixed Dormitory",
+      "description": "A mixed dormitory for 8 persons. With shared bathroom.",
+      "imgURL":
+        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/207302684.jpg?k=b7c70ca0350bd6419c549127ddbd4d3dc182e751114fc7a692c19b02af59b76a&o=",
+      "roomID": "1",
+      "price": "$39"
+    },
+    {
+      "name": "Small Double Room",
+      "description": "A small double room, with ensuite bathroom.",
+      "imgURL":
+        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/113581334.jpg?k=6dbfc14ed8b39c1e0de386c4b1a794e778eca5d9e0c7d7431608c07cf6438af7&o=",
+      "roomID": "2",
+      "price": "$89"
+    },
+    {
+      "name": "Deluxe Double Room",
+      "description": "A luxurious double room, with ensuite bathroom.",
+      "imgURL":
+        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/113288806.jpg?k=06f6c18e86f08429d2413b01d7f745ceff4b2434d581aae1d88d7573fbb81aca&o=",
+      "roomID": "3",
+      "price": "$119"
+    }
+  ]

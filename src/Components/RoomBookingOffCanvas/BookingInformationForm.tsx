@@ -14,6 +14,7 @@ export const BookingInformationForm = ({
   setBookingForm,
   onSubmit
 }: IBookingInformationFormProps) => {
+  // @TODO add js validation
   return (
     <Form className="row w-75" onSubmit={onSubmit}>
       <Col lg={12}>

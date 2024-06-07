@@ -7,33 +7,42 @@ import { IBookingForm, IHotelRoom, IHotelWithReview } from '../../../types';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Spinner from 'react-bootstrap/esm/Spinner';
 import { ReviewsBlock } from '../../../Components/ReviewsBlock';
 import { RoomBookingOffCanvas } from '../../../Components/RoomBookingOffCanvas';
 import { HotelRoomCard } from '../../../Components/HotelRoomCard';
 import { getEmptyBookingForm } from '../../../util/emptyObject';
+import { Loading } from '../../../Components/Loading';
+import Link from 'next/link';
 
 const HotelDetail = ({ params }: { params: { id: string } }) => {
   const [hotelWithReviews, setHotelWithReviews] = useState<IHotelWithReview>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hotelRooms, setHotelRooms] = useState<IHotelRoom[]>();
   const [bookingForm, setBookingForm] = useState<IBookingForm>(getEmptyBookingForm(params.id));
   const [showRoomBooking, setShowRoomBooking] = useState<boolean>(false);
   const { fetchHotelRooms, fetchHotelDataById } = useContext(HotelContext);
 
   useEffect(() => {
-    Promise.all([fetchHotelRooms(), fetchHotelDataById(params.id)]).then(([rooms, hotel]) => {
-      setHotelRooms(rooms);
-      setHotelWithReviews(hotel);
-    });
-    fetchHotelDataById(params.id).then((hotel) => setHotelWithReviews(hotel));
-  }, [params.id, fetchHotelDataById]);
+    setIsLoading(true);
+    Promise.all([fetchHotelRooms(), fetchHotelDataById(params.id)])
+      .then(([rooms, hotel]) => {
+        setHotelRooms(rooms);
+        setHotelWithReviews(hotel);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [params.id, fetchHotelRooms, fetchHotelDataById]);
 
   const openRoomBookingScreen = useCallback((roomID: string) => {
     setShowRoomBooking(true);
     setBookingForm((form) => ({ ...form, roomID }));
   }, []);
 
-  // @TODO add loading state
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return hotelWithReviews !== undefined ? (
     <Row>
       <Col lg={12}>
@@ -113,9 +122,12 @@ const HotelDetail = ({ params }: { params: { id: string } }) => {
       </Col>
     </Row>
   ) : (
-    <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </Spinner>
+    <div>
+      <h1>Hotel not found</h1>
+      <p>
+        This hotel cannot be found. Go back to the <Link href="/">hotel overview</Link> page
+      </p>
+    </div>
   );
 };
 export default HotelDetail;

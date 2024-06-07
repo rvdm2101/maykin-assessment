@@ -3,6 +3,7 @@ import { Row, Col, Button, ListGroup } from 'react-bootstrap';
 import { IBookingForm, IHotelRoom } from '../../types';
 import { useMemo } from 'react';
 import { getAllDatesInRange } from '../../util/getAllDatesInRange';
+import { dayMonthYearWithDayName, smallMonthNameAndDay } from '../../util/dateFormats';
 
 interface IBookingConfirmationProps {
   room: IHotelRoom;
@@ -46,8 +47,8 @@ export const BookingConfirmation = ({
         </p>
 
         <p className="mb-4">
-          <b>Dates:</b> {arivalDate.format('dddd, DD MMMM YYYY')} -{' '}
-          {departureDate.format('dddd, DD MMMM YYYY')}
+          <b>Dates:</b> {arivalDate.format(dayMonthYearWithDayName)} -{' '}
+          {departureDate.format(dayMonthYearWithDayName)}
           <span className="ms-1 text-body-secondary">({amountOfNightsInBooking} nights)</span>
         </p>
 
@@ -59,7 +60,7 @@ export const BookingConfirmation = ({
           </ListGroup.Item>
           {bookedDates.map((day, index) => (
             <ListGroup.Item key={index} className="d-flex">
-              {day.format('MMM DD')} - {day.add(1, 'day').format('MMM DD')}{' '}
+              {day.format(smallMonthNameAndDay)} - {day.add(1, 'day').format(smallMonthNameAndDay)}{' '}
               <span className="ms-auto">${room.price * bookingForm.amountOfRooms}</span>
             </ListGroup.Item>
           ))}

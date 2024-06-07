@@ -1,0 +1,61 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Swagger Maykin assessment - OpenAPI 3.0",
+      "description": "",
+      "contact": {},
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version": "1.0.11"
+    },
+    "paths": {
+    },
+    "components": {
+      "schemas": {
+        "BookingForm": {
+          "type": "object",
+          "required": ["hotelID", "roomID", "firstName", "lastName", "emailAddress", "amountOfRooms", "amountOfGuests", "arivalDate", "departureDate"],
+          "properties": {
+            "hotelID": {
+              "type": "string",
+              "minLength": 1
+            },
+            "roomID": {
+              "type": "string",
+              "minLength": 1
+            },
+            "firstName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "lastName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "emailAddress": {
+              "type": "string",
+              "format": "email"
+            },
+            "amountOfRooms": {
+              "type": "number",
+              "minimum": 1
+            },
+            "amountOfGuests": {
+              "type": "number",
+              "minimum": 1
+            },
+            "arivalDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "departureDate": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        }
+      }
+    }
+  }
